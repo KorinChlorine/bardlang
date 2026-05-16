@@ -4,83 +4,6 @@ from lark import Lark, Transformer
 # ==========================================
 # 1. BARDLANG GRAMMAR SPECIFICATION
 # ==========================================
-#
-# KEYWORD REFERENCE
-# -----------------
-# Variables:
-#   Enter x, a amount of <int_expr>.          → int
-#   Enter x, a numerical of <float_expr>.     → float
-#   Enter x, a scroll of "...".               → string
-#   Enter x, a banner of true/false.          → bool
-#   Enter x, a roster of [...].               → list
-#   x becomes <expr>.                         → reassign
-#
-# Input:
-#   Hearken x, a amount of "prompt".          → int input
-#   Hearken x, a numerical of "prompt".       → float input
-#   Hearken x, a scroll of "prompt".          → string input
-#
-# Output:
-#   Speak <expr>.                             → print
-#   Speak "literal".                          → print string
-#
-# Control flow:
-#   Hark! shouldst <cond> , then : ... Thus endeth the choice.
-#   Hark! shouldst <cond> , then : ... Alas, else : ... Thus endeth the choice.
-#   While <cond> , prithee : ... Thus endeth the while.
-#   For every x from <expr> to <expr> : ... Thus endeth the for.
-#   Cease.                                    → break
-#   Persist.                                  → continue
-#
-# Functions:
-#   A tale of name(params) : ... Thus endeth the tale.
-#   Return henceforth <expr>.
-#   Invoke name(args).                        → standalone call statement
-#   name(args)                                → call in expression
-#
-# Lists:
-#   Behold x, a roster of [...].              → list (alias)
-#   Add <expr> unto <list>.                   → append
-#   Remove <expr> from <list>.                → remove
-#   x[i]                                      → index
-#   x contains <expr>                         → in operator
-#   x lacks <expr>                            → not in operator
-#
-# String / length expressions:
-#   uppercase of <expr>                       → .upper()
-#   lowercase of <expr>                       → .lower()
-#   trimmed of <expr>                         → .strip()
-#   length of <expr>                          → len()
-#   joined <expr> with <expr>                 → str + str
-#
-# Type casting (expression form):
-#   cast <expr> to amount                     → int()
-#   cast <expr> to numerical                  → float()
-#   cast <expr> to scroll                     → str()
-#
-# Error handling:
-#   Attempt : ... Should tragedy strike : ... Thus endeth the attempt.
-#   Forsooth "<msg>".                         → raise Exception
-#
-# Conditions:
-#   x doth equal y          ==
-#   x doth not equal y      !=
-#   x is greater than y     >
-#   x is lesser than y      <
-#   x is no less than y     >=
-#   x is no more than y     <=
-#   x is naught             is None
-#   x is not naught         is not None
-#   x contains y            y in x
-#   x lacks y               y not in x
-#   <cond> and also <cond>  and
-#   <cond> or perchance <cond>  or
-#   not <cond>              not
-#
-# Math operators:
-#   plus  minus  times  divided by  modulo
-#   nay <expr>   → negation
-# ==========================================
 
 bardlang_grammar = r"""
     start: instruction+
@@ -422,7 +345,7 @@ def run_bard_code(source_code: str, verbose: bool = False):
 
 
 # ==========================================
-# 4. SELF-TEST (non-interactive)
+# 4. Maine
 # ==========================================
 if __name__ == "__main__":
     test = r"""
