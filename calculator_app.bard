@@ -1,0 +1,104 @@
+# ==========================================
+# BARDLANG INTERACTIVE CALCULATOR
+# ==========================================
+
+A tale of do_add(a, b):
+    Return henceforth a plus b.
+Thus endeth the tale.
+
+A tale of do_sub(a, b):
+    Return henceforth a minus b.
+Thus endeth the tale.
+
+A tale of do_mul(a, b):
+    Return henceforth a times b.
+Thus endeth the tale.
+
+A tale of do_div(a, b):
+    Hark! shouldst b doth equal 0.0 , then :
+        Speak "Error: Division by zero.".
+        Return henceforth 0.0.
+    Thus endeth the choice.
+    Return henceforth a divided by b.
+Thus endeth the tale.
+
+A tale of do_mod(a, b):
+    Hark! shouldst b doth equal 0.0 , then :
+        Speak "Error: Modulo by zero.".
+        Return henceforth 0.0.
+    Thus endeth the choice.
+    Return henceforth a modulo b.
+Thus endeth the tale.
+
+A tale of do_pow(base, exp):
+    Enter result, a numerical of 1.0.
+    Enter steps, a amount of cast exp to amount.
+    For every i from 1 to steps :
+        result becomes result times base.
+    Thus endeth the for.
+    Return henceforth result.
+Thus endeth the tale.
+
+# --- Main loop ---
+Speak "==========================================".
+Speak "       BARDLANG SIMPLE CALCULATOR".
+Speak "==========================================".
+Speak "Operators: + - * / % ^".
+Speak "Type 'quit' to exit.".
+Speak "".
+
+Enter running, a banner of true.
+
+While running , prithee :
+    Speak "------------------------------------------".
+
+    Attempt :
+        Hearken a, a numerical of "Enter first number : ".
+        Hearken op, a scroll of "Enter operator (+,-,*,/,%,^): ".
+        Hearken b, a numerical of "Enter second number: ".
+
+        Hark! shouldst op doth equal "+" , then :
+            Enter result, a numerical of do_add(a, b).
+            Speak joined "Result: " with cast result to scroll.
+        Alas, else :
+            Hark! shouldst op doth equal "-" , then :
+                Enter result, a numerical of do_sub(a, b).
+                Speak joined "Result: " with cast result to scroll.
+            Alas, else :
+                Hark! shouldst op doth equal "*" , then :
+                    Enter result, a numerical of do_mul(a, b).
+                    Speak joined "Result: " with cast result to scroll.
+                Alas, else :
+                    Hark! shouldst op doth equal "/" , then :
+                        Enter result, a numerical of do_div(a, b).
+                        Speak joined "Result: " with cast result to scroll.
+                    Alas, else :
+                        Hark! shouldst op doth equal "%" , then :
+                            Enter result, a numerical of do_mod(a, b).
+                            Speak joined "Result: " with cast result to scroll.
+                        Alas, else :
+                            Hark! shouldst op doth equal "^" , then :
+                                Enter result, a numerical of do_pow(a, b).
+                                Speak joined "Result: " with cast result to scroll.
+                            Alas, else :
+                                Speak joined "Unknown operator: " with op.
+                            Thus endeth the choice.
+                        Thus endeth the choice.
+                    Thus endeth the choice.
+                Thus endeth the choice.
+            Thus endeth the choice.
+        Thus endeth the choice.
+
+    Should tragedy strike :
+        Speak "Invalid input. Please enter valid numbers.".
+    Thus endeth the attempt.
+
+    Speak "".
+    Hearken again, a scroll of "Calculate again? (yes/no): ".
+    Hark! shouldst again doth equal "no" , then :
+        running becomes false.
+    Thus endeth the choice.
+Thus endeth the while.
+
+Speak "".
+Speak "Farewell! The calculator hath closed its tome.".

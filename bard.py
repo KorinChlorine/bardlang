@@ -1,5 +1,5 @@
 import sys
-from shakespeare_lang import run_bard_code
+from bardlang import run_bard_code
 
 if len(sys.argv) < 2:
     print("Usage: python bard.py <script.bard>")
