@@ -1,12 +1,3 @@
-# My first Bard script!
-Enter Romeo, a knave of 42.
-Enter Juliet, a knave of 8.
-Enter sum, a knave of Romeo plus Juliet.
-Speak "The sum of Romeo and Juliet is:".
-Speak sum.
-
-Hark! shouldst sum is greater than 40, then :
-    Speak "A grand sum indeed!".
-Alas, else :
-    Speak "A modest sum.".
-Thus endeth the choice.
+Behold Charmander, a roster of [10, 15].
+Add 5 unto Charmander.
+Speak Charmander.
