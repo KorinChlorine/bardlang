@@ -1,8 +1,8 @@
 # BardLang
 
-A Shakespearean-themed compiled domain-specific programming language that transpiles to Python. Write code in dramatic Early Modern English — declare variables with `Enter`, loop with `While`, define functions with `A tale of`, and handle errors with `Attempt`.
+BardLang is a Shakespearean-themed domain-specific programming language that transpiles to Python. It keeps the theatrical syntax, but adds Bard-native conveniences that are not just renamed Python: `Unless`, `Repeat`, inclusive stepped ranges, `or else` defaults, named tragedy catches, classes, inheritance, and built-in math/string/roster phrases.
 
-```
+```bard
 A tale of greet(name):
     Speak joined "Hello, " with name.
 Thus endeth the tale.
@@ -11,18 +11,14 @@ Hearken who, a scroll of "Enter your name: ".
 Invoke greet(who).
 ```
 
----
-
 ## Requirements
 
 - Python 3.8+
-- [Lark](https://github.com/lark-parser/lark) parser
+- [Lark](https://github.com/lark-parser/lark)
 
 ```bash
 pip install lark
 ```
-
----
 
 ## Usage
 
@@ -30,74 +26,171 @@ pip install lark
 python bard.py yourscript.bard
 ```
 
-To see the generated Python output:
+To see generated Python:
 
 ```python
-from shakespeare_lang import run_bard_code
+from bardlang import run_bard_code
 
 with open("yourscript.bard") as f:
     run_bard_code(f.read(), verbose=True)
 ```
 
----
-
 ## Language Reference
 
 ### Variables
 
-BardLang is statically typed at declaration. Every variable must declare its type.
+```bard
+Enter count, a amount of 5.
+Enter price, a numerical of 3.14.
+Enter name, a scroll of "Galahad".
+Enter ready, a banner of true.
+Enter items, a roster of [1, 2, 3].
 
-| BardLang | Type | Example |
-|---|---|---|
-| `a amount of` | `int` | `Enter x, a amount of 5.` |
-| `a numerical of` | `float` | `Enter x, a numerical of 3.14.` |
-| `a scroll of` | `str` | `Enter x, a scroll of "hello".` |
-| `a banner of` | `bool` | `Enter x, a banner of true.` |
-| `a roster of` | `list` | `Enter x, a roster of [1, 2, 3].` |
-
-Reassignment (any type):
-```
-x becomes 42.
+count becomes count plus 1.
 ```
 
----
+`a amount of` and `a numerical of` cast through `int(...)` and `float(...)`. `a scroll of` now accepts expressions, so defaults and object creation can be used directly.
 
-### Input
-
-```
-Hearken x, a scroll of "Enter your name: ".
-Hearken x, a amount of "Enter an integer: ".
-Hearken x, a numerical of "Enter a decimal: ".
+```bard
+Enter title, a scroll of naught or else "Untitled".
 ```
 
----
+### Input and Output
 
-### Output
-
-```
-Speak "Hello, world!".
-Speak x.
-Speak joined "Value is: " with cast x to scroll.
+```bard
+Hearken name, a scroll of "Name: ".
+Hearken age, a amount of "Age: ".
+Speak joined "Hello, " with name.
 ```
 
----
+### Control Flow
 
-### Operators
+```bard
+Hark! shouldst score is no less than 90 , then :
+    Speak "Excellent.".
+Ponder! shouldst score is no less than 60 , then :
+    Speak "Passed.".
+Alas, else :
+    Speak "Failed.".
+Thus endeth the choice.
+```
 
-**Arithmetic**
+`Unless` is the inverse of `Hark!`, useful for guard-style code:
 
-| BardLang | Python |
-|---|---|
-| `a plus b` | `a + b` |
-| `a minus b` | `a - b` |
-| `a times b` | `a * b` |
-| `a divided by b` | `a / b` |
-| `a modulo b` | `a % b` |
-| `nay a` | `-a` |
+```bard
+Unless ready , lest :
+    Speak "Not ready.".
+Thus endeth the unless.
+```
 
-**Conditions**
+Loops:
 
-| BardLang | Python |
+```bard
+While running , prithee :
+    running becomes false.
+Thus endeth the while.
+
+For every i from 1 to 5 :
+    Speak i.
+Thus endeth the for.
+
+For every i from 10 to 2 by nay 2 :
+    Speak i.
+Thus endeth the for.
+
+Repeat 3 times :
+    Speak "chorus".
+Thus endeth the repeat.
+```
+
+Use `Cease.` for `break` and `Persist.` for `continue`.
+
+### Functions
+
+```bard
+A tale of add(a, b):
+    Return henceforth a plus b.
+Thus endeth the tale.
+
+Enter result, a amount of add(2, 3).
+Invoke add(2, 3).
+```
+
+### Classes
+
+```bard
+A chronicle of Character :
+    Inscribe health as 100.
+
+    A tale of enact(self, name) :
+        self.name becomes name.
+    Thus endeth the tale.
+Thus endeth the chronicle.
+
+A chronicle of Paladin begets Character :
+    A tale of enact(self, name) :
+        Invoke primal(self, name).
+    Thus endeth the tale.
+Thus endeth the chronicle.
+
+Enter hero, a scroll of Conjure Paladin("Galahad").
+```
+
+`enact` compiles to `__init__`, and `Invoke primal(self, ...)` calls the parent initializer.
+
+### Lists
+
+```bard
+Enter nums, a roster of [3, 1, 2].
+Add 4 unto nums.
+Remove 1 from nums.
+Arrange nums.
+Invert nums.
+
+Speak nums[0].
+Speak length of nums.
+Speak tally of nums.
+Speak position of 3 in nums.
+Speak tally occurrences of 2 in nums.
+```
+
+### Strings
+
+```bard
+Enter msg, a scroll of "  Hello World  ".
+
+Speak uppercase of msg.
+Speak lowercase of msg.
+Speak trimmed of msg.
+Speak joined "Hello, " with "Kharl".
+Speak split msg by " ".
+Speak replace "l" with "r" in msg.
+Speak excerpt msg from 1 to 4.
+Speak echo "ha" times 3.
+```
+
+### Math and Expressions
+
+```bard
+Speak absolute of nay 9.
+Speak root of 144.
+Speak floor of 3.9.
+Speak ceiling of 3.1.
+Speak rounded of 3.5.
+Speak 2 raised to 10.
+Speak lesser between 4 and 9.
+Speak greater between 4 and 9.
+```
+
+Defaulting uses `or else` and only falls back for `naught`, not for falsey values like `0` or `false`:
+
+```bard
+Enter label, a scroll of naught or else "Unknown".
+```
+
+### Conditions
+
+| BardLang | Python meaning |
 |---|---|
 | `x doth equal y` | `x == y` |
 | `x doth not equal y` | `x != y` |
@@ -111,257 +204,48 @@ Speak joined "Value is: " with cast x to scroll.
 | `x lacks y` | `y not in x` |
 | `cond and also cond` | `and` |
 | `cond or perchance cond` | `or` |
-| `not cond` | `not` |
-
----
-
-### Control Flow
-
-**If / else:**
-```
-Hark! shouldst x is greater than 0 , then :
-    Speak "Positive.".
-Alas, else :
-    Speak "Non-positive.".
-Thus endeth the choice.
-```
-
-**While loop:**
-```
-While running , prithee :
-    Speak "Looping...".
-    running becomes false.
-Thus endeth the while.
-```
-
-**For loop:**
-```
-For every i from 1 to 5 :
-    Speak i.
-Thus endeth the for.
-```
-
-**Break and continue:**
-```
-Cease.     # break
-Persist.   # continue
-```
-
----
-
-### Functions
-
-```
-A tale of add(a, b):
-    Return henceforth a plus b.
-Thus endeth the tale.
-
-Enter result, a numerical of add(3.0, 4.0).
-Speak result.
-```
-
-Standalone call (discards return value):
-```
-Invoke add(3.0, 4.0).
-```
-
----
-
-### Lists
-
-```
-Enter nums, a roster of [1, 2, 3].
-
-Add 4 unto nums.
-Remove 1 from nums.
-
-Enter first, a amount of nums[0].
-Enter size, a amount of length of nums.
-```
-
----
-
-### String Operations
-
-All string operations are expressions and can be nested:
-
-```
-Enter msg, a scroll of "  Hello World  ".
-
-Speak uppercase of msg.
-Speak lowercase of msg.
-Speak trimmed of msg.
-Speak uppercase of trimmed of msg.
-Speak length of msg.
-Speak joined "Hello, " with "Kharl".
-```
-
----
-
-### Type Casting
-
-```
-Enter raw, a scroll of "42".
-Enter num, a amount of cast raw to amount.
-Enter dec, a numerical of cast num to numerical.
-Enter str, a scroll of cast num to scroll.
-```
-
----
 
 ### Error Handling
 
-```
+```bard
 Attempt :
-    Hearken x, a numerical of "Enter a number: ".
-    Hark! shouldst x is lesser than 0 , then :
-        Forsooth "Negative numbers not allowed.".
-    Thus endeth the choice.
-    Speak x.
-Should tragedy strike :
-    Speak "Invalid input caught.".
+    Forsooth "Something failed.".
+Should tragedy strike as sorrow :
+    Speak joined "Caught: " with sorrow.
 Thus endeth the attempt.
 ```
 
-`Forsooth "message".` raises an exception.  
-`Should tragedy strike` catches any exception — equivalent to `except Exception`.
-
----
+`Should tragedy strike` catches any exception. `Should tragedy strike as name` exposes the exception message as a BardLang variable.
 
 ### Comments
 
-```
+```bard
 # This is a comment.
 ```
 
----
-
-## Example Programs
-
-### Hello World
-
-```
-Speak "Hello, world!".
-```
-
-### Factorial (recursive)
-
-```
-A tale of factorial(n):
-    Hark! shouldst n doth equal 0 , then :
-        Return henceforth 1.
-    Thus endeth the choice.
-    Enter prev, a amount of n minus 1.
-    Enter sub, a amount of factorial(prev).
-    Return henceforth n times sub.
-Thus endeth the tale.
-
-Speak factorial(10).
-```
-
-### FizzBuzz
-
-```
-For every i from 1 to 30 :
-    Hark! shouldst i modulo 15 doth equal 0 , then :
-        Speak "FizzBuzz".
-    Alas, else :
-        Hark! shouldst i modulo 3 doth equal 0 , then :
-            Speak "Fizz".
-        Alas, else :
-            Hark! shouldst i modulo 5 doth equal 0 , then :
-                Speak "Buzz".
-            Alas, else :
-                Speak i.
-            Thus endeth the choice.
-        Thus endeth the choice.
-    Thus endeth the choice.
-Thus endeth the for.
-```
-
-### Interactive Calculator
-
-```
-Hearken a, a numerical of "First number : ".
-Hearken op, a scroll of "Operator (+,-,*,/): ".
-Hearken b, a numerical of "Second number: ".
-
-Hark! shouldst op doth equal "+" , then :
-    Speak a plus b.
-Alas, else :
-    Hark! shouldst op doth equal "-" , then :
-        Speak a minus b.
-    Alas, else :
-        Hark! shouldst op doth equal "*" , then :
-            Speak a times b.
-        Alas, else :
-            Hark! shouldst op doth equal "/" , then :
-                Hark! shouldst b doth equal 0.0 , then :
-                    Speak "Cannot divide by zero.".
-                Alas, else :
-                    Speak a divided by b.
-                Thus endeth the choice.
-            Alas, else :
-                Speak "Unknown operator.".
-            Thus endeth the choice.
-        Thus endeth the choice.
-    Thus endeth the choice.
-Thus endeth the choice.
-```
-
----
-
-## Project Structure
-
-```
-bardlang/
-├── shakespeare_lang.py   # Grammar, compiler, and interpreter
-├── bard.py               # CLI runner
-├── calculator.bard       # Demo: matrix/factorial script
-├── calculator_app.bard   # Demo: interactive calculator
-└── README.md
-```
-
----
-
 ## Architecture
 
-BardLang is a **transpiled DSL**. Source code goes through three stages:
+BardLang is a transpiled DSL:
 
-```
+```text
 .bard source
-     │
-     ▼
-  Lark Earley parser
-  (shakespeare_grammar)
-     │
-     ▼
-  Abstract Syntax Tree
-     │
-     ▼
-  BardToPython transformer
-     │
-     ▼
-  Python source string
-     │
-     ▼
-  exec() in isolated namespace
+  -> Lark Earley parser
+  -> parse tree
+  -> BardToPython transformer
+  -> Python source
+  -> exec() in an isolated namespace
 ```
 
-The grammar uses Lark's `earley` parser with `dynamic_complete` lexer and `ambiguity='resolve'` to handle the natural-language keyword conflicts cleanly. `TRUE_KW` and `FALSE_KW` are given priority `.2` to prevent `true`/`false` from being lexed as variable names.
-
----
+Syntax errors now report Bard source line and column context before re-raising the parser error.
 
 ## Limitations
 
-- No module/import system — all code must be in one `.bard` file
-- No dictionary/map type
+- No module/import system; all Bard code lives in one file
+- No dictionary/map type yet
 - No first-class functions or closures
-- No standard library (file I/O, networking, etc.)
-- Error messages reference generated Python line numbers, not `.bard` line numbers
-- `Should tragedy strike` does not expose the exception message to BardLang code
-
----
+- No Bard standard library for files, networking, or dates
+- Runtime tracebacks still come from generated Python, though syntax errors point at Bard source
+- Type declarations are runtime casts/conventions, not a full static type checker
 
 ## License
 

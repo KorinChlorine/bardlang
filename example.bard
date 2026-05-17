@@ -1,0 +1,36 @@
+# Define Base Class Schema
+A chronicle of Character :
+    # Default State Property Definitions
+    Inscribe health as 100.
+    Inscribe experience as 0.
+
+    # Initialization Constructor Routine
+    A tale of enact(self, name) :
+        self.name becomes name.
+    Thus endeth the tale.
+
+    # Base Instance Behavior Method
+    A tale of take_damage(self, quantity) :
+        self.health becomes self.health minus quantity.
+        Speak joined self.name with " has sustained structural wounds.".
+    Thus endeth the tale.
+Thus endeth the chronicle.
+
+# Extend Subclass functionality using Inheritance tracking
+A chronicle of Paladin begets Character :
+    A tale of enact(self, name, shield_rating) :
+        # Execute parent initializer routines via primal execution tracking
+        Invoke primal(self, name).
+        self.shield becomes shield_rating.
+    Thus endeth the tale.
+
+    # Override base method mechanisms seamlessly
+    A tale of defend(self) :
+        Speak joined self.name with " raises a holy defensive barrier!".
+    Thus endeth the tale.
+Thus endeth the chronicle.
+
+# System Execution Flow Integration Example
+Enter galahad, a scroll of Conjure Paladin("Galahad", 50).
+galahad.defend().
+galahad.take_damage(20).
