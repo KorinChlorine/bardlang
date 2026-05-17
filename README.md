@@ -35,35 +35,76 @@ with open("yourscript.bard") as f:
     run_bard_code(f.read(), verbose=True)
 ```
 
-## Language Reference
+## Complete Command Reference
 
-### Variables
+This section lists every command and expression form currently accepted by the grammar in `bardlang.py`.
+
+### Program Structure
+
+| Command | Form |
+|---|---|
+| Comment | `# comment text` |
+| Statement terminator | Most single-line commands end with `.` |
+| Block terminator | Blocks use matching `Thus endeth ...` lines |
+
+### Literals and Values
+
+| BardLang | Meaning |
+|---|---|
+| `123` | integer literal |
+| `3.14` | float literal |
+| `"hello"` | string literal |
+| `true` | boolean true |
+| `false` | boolean false |
+| `naught` | null / `None` |
+| `[a, b, c]` | roster / list literal |
+| `name` | variable reference |
+| `(expr)` | grouped expression |
+
+### Variable Commands
+
+| Command | Form |
+|---|---|
+| Declare integer | `Enter name, a amount of expr.` |
+| Declare float | `Enter name, a numerical of expr.` |
+| Declare string/expression | `Enter name, a scroll of expr.` |
+| Declare boolean | `Enter name, a banner of true.` or `Enter name, a banner of false.` |
+| Declare roster | `Enter name, a roster of [expr, expr].` |
+| Reassign variable | `name becomes expr.` |
+| Reassign attribute | `object.field becomes expr.` |
+
+Examples:
 
 ```bard
 Enter count, a amount of 5.
 Enter price, a numerical of 3.14.
-Enter name, a scroll of "Galahad".
+Enter title, a scroll of naught or else "Untitled".
 Enter ready, a banner of true.
-Enter items, a roster of [1, 2, 3].
+Enter nums, a roster of [1, 2, 3].
 
 count becomes count plus 1.
+hero.health becomes hero.health minus 10.
 ```
 
-`a amount of` and `a numerical of` cast through `int(...)` and `float(...)`. `a scroll of` now accepts expressions, so defaults and object creation can be used directly.
+### Input and Output Commands
 
-```bard
-Enter title, a scroll of naught or else "Untitled".
-```
+| Command | Form |
+|---|---|
+| Print | `Speak expr.` |
+| Read integer | `Hearken name, a amount of "Prompt: ".` |
+| Read float | `Hearken name, a numerical of "Prompt: ".` |
+| Read string | `Hearken name, a scroll of "Prompt: ".` |
 
-### Input and Output
+### Choice Commands
 
-```bard
-Hearken name, a scroll of "Name: ".
-Hearken age, a amount of "Age: ".
-Speak joined "Hello, " with name.
-```
+| Command | Form |
+|---|---|
+| If | `Hark! shouldst condition , then : ... Thus endeth the choice.` |
+| If / else | `Hark! shouldst condition , then : ... Alas, else : ... Thus endeth the choice.` |
+| Else-if | `Ponder! shouldst condition , then : ...` inside a choice |
+| Unless | `Unless condition , lest : ... Thus endeth the unless.` |
 
-### Control Flow
+Example:
 
 ```bard
 Hark! shouldst score is no less than 90 , then :
@@ -73,17 +114,24 @@ Ponder! shouldst score is no less than 60 , then :
 Alas, else :
     Speak "Failed.".
 Thus endeth the choice.
-```
 
-`Unless` is the inverse of `Hark!`, useful for guard-style code:
-
-```bard
 Unless ready , lest :
     Speak "Not ready.".
 Thus endeth the unless.
 ```
 
-Loops:
+### Loop Commands
+
+| Command | Form |
+|---|---|
+| While loop | `While condition , prithee : ... Thus endeth the while.` |
+| Inclusive for loop | `For every name from start to end : ... Thus endeth the for.` |
+| Inclusive stepped for loop | `For every name from start to end by step : ... Thus endeth the for.` |
+| Repeat loop | `Repeat expr times : ... Thus endeth the repeat.` |
+| Break | `Cease.` |
+| Continue | `Persist.` |
+
+Examples:
 
 ```bard
 While running , prithee :
@@ -103,9 +151,16 @@ Repeat 3 times :
 Thus endeth the repeat.
 ```
 
-Use `Cease.` for `break` and `Persist.` for `continue`.
+### Function Commands
 
-### Functions
+| Command | Form |
+|---|---|
+| Define function | `A tale of name(param, param): ... Thus endeth the tale.` |
+| Call function as statement | `Invoke name(arg, arg).` |
+| Return value | `Return henceforth expr.` |
+| Call function as expression | `name(arg, arg)` |
+
+Example:
 
 ```bard
 A tale of add(a, b):
@@ -116,7 +171,23 @@ Enter result, a amount of add(2, 3).
 Invoke add(2, 3).
 ```
 
-### Classes
+### Class Commands
+
+| Command | Form |
+|---|---|
+| Define class | `A chronicle of Name : ... Thus endeth the chronicle.` |
+| Define subclass | `A chronicle of Child begets Parent : ... Thus endeth the chronicle.` |
+| Class/default attribute | `Inscribe field as expr.` |
+| Define method | `A tale of method(self, arg): ... Thus endeth the tale.` |
+| Constructor method | `A tale of enact(self, arg): ... Thus endeth the tale.` |
+| Parent constructor call | `Invoke primal(self, arg).` |
+| Create object | `Conjure ClassName(arg, arg)` |
+| Method call statement | `object.method(arg, arg).` |
+| Method call expression | `object.method(arg, arg)` |
+| Attribute access | `object.field` |
+| Attribute assignment | `object.field becomes expr.` |
+
+Example:
 
 ```bard
 A chronicle of Character :
@@ -134,11 +205,24 @@ A chronicle of Paladin begets Character :
 Thus endeth the chronicle.
 
 Enter hero, a scroll of Conjure Paladin("Galahad").
+hero.health becomes hero.health minus 10.
 ```
 
 `enact` compiles to `__init__`, and `Invoke primal(self, ...)` calls the parent initializer.
 
-### Lists
+### Roster/List Commands
+
+| Command | Form |
+|---|---|
+| Declare roster | `Enter name, a roster of [expr, expr].` |
+| Alternate roster declaration | `Behold name, a roster of [expr, expr].` |
+| Append item | `Add expr unto name.` |
+| Remove item | `Remove expr from name.` |
+| Sort roster in place | `Arrange name.` |
+| Reverse roster in place | `Invert name.` |
+| Index roster | `name[index]` |
+
+Example:
 
 ```bard
 Enter nums, a roster of [3, 1, 2].
@@ -146,52 +230,32 @@ Add 4 unto nums.
 Remove 1 from nums.
 Arrange nums.
 Invert nums.
-
 Speak nums[0].
-Speak length of nums.
-Speak tally of nums.
-Speak position of 3 in nums.
-Speak tally occurrences of 2 in nums.
 ```
 
-### Strings
+### Error Handling Commands
 
-```bard
-Enter msg, a scroll of "  Hello World  ".
-
-Speak uppercase of msg.
-Speak lowercase of msg.
-Speak trimmed of msg.
-Speak joined "Hello, " with "Kharl".
-Speak split msg by " ".
-Speak replace "l" with "r" in msg.
-Speak excerpt msg from 1 to 4.
-Speak echo "ha" times 3.
-```
-
-### Math and Expressions
-
-```bard
-Speak absolute of nay 9.
-Speak root of 144.
-Speak floor of 3.9.
-Speak ceiling of 3.1.
-Speak rounded of 3.5.
-Speak 2 raised to 10.
-Speak lesser between 4 and 9.
-Speak greater between 4 and 9.
-```
-
-Defaulting uses `or else` and only falls back for `naught`, not for falsey values like `0` or `false`:
-
-```bard
-Enter label, a scroll of naught or else "Unknown".
-```
-
-### Conditions
-
-| BardLang | Python meaning |
+| Command | Form |
 |---|---|
+| Try/catch | `Attempt : ... Should tragedy strike : ... Thus endeth the attempt.` |
+| Try/catch with message | `Attempt : ... Should tragedy strike as name : ... Thus endeth the attempt.` |
+| Raise error | `Forsooth "message".` |
+
+Example:
+
+```bard
+Attempt :
+    Forsooth "Something failed.".
+Should tragedy strike as sorrow :
+    Speak joined "Caught: " with sorrow.
+Thus endeth the attempt.
+```
+
+### Condition Forms
+
+| BardLang | Meaning |
+|---|---|
+| `expr` | truthy test |
 | `x doth equal y` | `x == y` |
 | `x doth not equal y` | `x != y` |
 | `x is greater than y` | `x > y` |
@@ -202,26 +266,70 @@ Enter label, a scroll of naught or else "Unknown".
 | `x is not naught` | `x is not None` |
 | `x contains y` | `y in x` |
 | `x lacks y` | `y not in x` |
-| `cond and also cond` | `and` |
-| `cond or perchance cond` | `or` |
+| `x scroll y holds z` | `z in y` |
+| `condition and also condition` | logical `and` |
+| `condition or perchance condition` | logical `or` |
+| `not condition` | logical `not` |
 
-### Error Handling
+### Arithmetic and Boolean Expressions
 
-```bard
-Attempt :
-    Forsooth "Something failed.".
-Should tragedy strike as sorrow :
-    Speak joined "Caught: " with sorrow.
-Thus endeth the attempt.
-```
+| BardLang | Meaning |
+|---|---|
+| `a plus b` | addition |
+| `a minus b` | subtraction |
+| `a times b` | multiplication |
+| `a divided by b` | division |
+| `a modulo b` | modulo |
+| `nay a` | numeric negation |
+| `a or b` | bitwise/logical OR operator emitted as `a | b` |
+| `a and b` | bitwise/logical AND operator emitted as `a & b` |
 
-`Should tragedy strike` catches any exception. `Should tragedy strike as name` exposes the exception message as a BardLang variable.
+### Casting and Default Expressions
 
-### Comments
+| BardLang | Meaning |
+|---|---|
+| `cast expr to amount` | `int(expr)` |
+| `cast expr to numerical` | `float(expr)` |
+| `cast expr to scroll` | `str(expr)` |
+| `expr or else fallback` | use `fallback` only when `expr` is `naught` |
 
-```bard
-# This is a comment.
-```
+### String Expressions
+
+| BardLang | Meaning |
+|---|---|
+| `uppercase of expr` | uppercase string |
+| `lowercase of expr` | lowercase string |
+| `trimmed of expr` | strip whitespace |
+| `length of expr` | length |
+| `joined a with b` | concatenate as strings |
+| `split text by separator` | split string |
+| `replace old with new in text` | replace substring |
+| `excerpt text from start to end` | slice string/list |
+| `echo text times count` | repeat string |
+
+### Math Expressions
+
+| BardLang | Meaning |
+|---|---|
+| `absolute of expr` | absolute value |
+| `root of expr` | square root |
+| `floor of expr` | floor |
+| `ceiling of expr` | ceiling |
+| `rounded of expr` | rounded value |
+| `base raised to exp` | exponentiation |
+| `lesser between a and b` | minimum |
+| `greater between a and b` | maximum |
+
+### Roster/List Expressions
+
+| BardLang | Meaning |
+|---|---|
+| `length of roster` | length |
+| `tally of roster` | sum |
+| `position of item in roster` | index of item |
+| `tally occurrences of item in roster` | count item |
+| `weave roster with separator` | join roster items into string |
+| `roster[index]` | item at index |
 
 ## Architecture
 
