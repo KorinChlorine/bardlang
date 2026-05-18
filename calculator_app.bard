@@ -45,7 +45,7 @@ Speak "       BARDLANG SIMPLE CALCULATOR".
 Speak "==========================================".
 Speak "Operators: + - * / % ^".
 Speak "Type 'quit' to exit.".
-Speak "".
+Speak " ".
 
 Enter running, a banner of true.
 
