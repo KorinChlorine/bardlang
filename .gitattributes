@@ -1,2 +1,5 @@
-*.bard linguist-documentation=false
+
 *.bard linguist-language=Python
+*.bard linguist-documentation=false
+*.bard linguist-vendored=false
+*.bard linguist-generated=false
